@@ -59,8 +59,8 @@ def write_to_mysql(filename):
 
     f=open(filename  ,'r').readlines()
 
-    for line,num in zip(f,range(1,len(f)+1)):
-        line = line[:-1]
+    for line,num in zip(f,range(1,len(f)+1)):#使用zip()函数，将id与string绑定，一一对应
+        line = line[:-1] #去除\n符号
         cur.execute('insert into testable (id, name) values (%s, %s)', [str(num), line])
         conn.commit()
     cur.close()

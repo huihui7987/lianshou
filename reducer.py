@@ -4,6 +4,7 @@
 from itertools import groupby
 from operator import itemgetter
 import sys
+from mapper import cc
 
 def read_mapper_output(file, separator='\t'):
     for line in file:

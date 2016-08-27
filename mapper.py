@@ -2,6 +2,7 @@
 """A more advanced Mapper, using Python iterators and generators."""
 
 import sys
+cc=[]
 
 def read_input():
     with open('/home/huihui7987/20417.txt') as file:
@@ -20,7 +21,11 @@ def main(separator='\t'):
         #
         # tab-delimited; the trivial word count is 1
         for word in words:
-            print ('%s%s%d' % (word, separator, 1))
+            #print ('%s%s%d' % (word, separator, 1))
+            cc.append((word, separator, 1))
+    return cc
 
 if __name__ == "__main__":
     main()
+    print(cc)
+

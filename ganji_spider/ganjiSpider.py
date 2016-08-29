@@ -49,7 +49,7 @@ def get_goods_url(pageurl):
 if __name__ == '__main__':
     s = time.time()
     pool = Pool(processes=4)
-    pool.map(get_goods_url,channel_page_urllist)
+    pool.map(get_goods_url,channel_page_urllist)#map(func, iterable[, chunksize=None])它会使进程阻塞直到返回结果。注意，虽然第二个参数是一个迭代器，但在实际使用中，必须在整个队列都就绪后，程序才会运行子进程。
     pool.close()
     pool.join()
     end = time.time()

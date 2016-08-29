@@ -27,7 +27,7 @@ def get_channel_pages_urllist(startPage,endPage,url):#获得分类指定页数�
             channel_page_urllist.append(channel_url)
     return channel_page_urllist
 
-
+channel_page_urllist = get_channel_pages_urllist(1,3,url)
 
 
 def get_goods_url(pageurl):
@@ -41,18 +41,17 @@ def get_goods_url(pageurl):
             goods_urllist.append(goods_url)
     #else:
     #    break
-    return goods_urllist
+    #return goods_urllist
 
 ###上面可以实现抓取所有物品的链接
-'''
+
 
 if __name__ == '__main__':
+    s = time.time()
     pool = Pool(processes=4)
-    pool.map(get_goods_url(channel_page_urllist),channel_page_urllist)
+    pool.map(get_goods_url,channel_page_urllist)
     pool.close()
     pool.join()
-    '''
-for URL in get_channel_pages_urllist(1,2,url):
-    get_goods_url(URL)
+    end = time.time()
 
-
+    print('runs %0.2f seconds.' % (end - s))

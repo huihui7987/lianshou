@@ -41,17 +41,16 @@ def get_goods_url(pageurl):
             goods_urllist.append(goods_url)
     #else:
     #    break
-    return goods_urllist
+    #return goods_urllist
 
 ###上面可以实现抓取所有物品的链接
-'''
+
 
 if __name__ == '__main__':
     pool = Pool(processes=4)
-    pool.map(get_goods_url(channel_page_urllist),channel_page_urllist)
+    pool.map(get_goods_url,channel_page_urllist)
     pool.close()
     pool.join()
-'''
 
 
 
@@ -91,6 +90,7 @@ if __name__ == '__main__':
 
 
 
-get_channel_pages_urllist(1,10,url)
+
+
 
 

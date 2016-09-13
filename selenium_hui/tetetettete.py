@@ -1,47 +1,115 @@
-#-*-coding:utf-8-*-
+'''
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import time
+driver = webdriver.Chrome()
 
-import requests,time,re
-from bs4 import BeautifulSoup
-from multiprocessing import Pool
-html_doc = '''
-<li class="item">
-<a class="item-link" href="//mm.taobao.com/self/aiShow.htm?userId=485581745" target="_blank">
-<div class="item-wrap">
-<div class="img"><img src="//gtd.alicdn.com/sns_logo/i6/TB1rD3DLXXXXXcqXFXXSutbFXXX.jpg_240x240xz.jpg"/></div>
-<div class="info">
-<span class="name">何小蕊</span>
-<span class="city">杭州市</span>
-</div>
-<div class="info row2">
-<span>168CM / 48KG</span>
-<span class="fr"><i class="iconfont"></i>44618</span>
-</div>
-</div>
-</a>
-</li>
+driver.get("https://www.baidu.com/")
 
-<li class="item">
-<a class="item-link" href="//mm.taobao.com/self/aiShow.htm?userId=397762786" target="_blank">
-<div class="item-wrap">
-<div class="img"><img data-ks-lazyload="//gtd.alicdn.com/sns_logo/i1/TB1Xp3qJVXXXXbBXFXXSutbFXXX.jpg_240x240xz.jpg" src="//g.alicdn.com/s.gif"/></div>
-<div class="info">
-<span class="name">卡瑞纳</span>
-<span class="city">北京市</span>
-</div>
-<div class="info row2">
-<span>176CM / 50KG</span>
-<span class="fr"><i class="iconfont"></i>13380</span>
-</div>
-</div>
-</a>
-</li>
-
+#js="var q=document.body.scrollTop=10000"
+#driver.execute_script(js)
+#driver.get('https://play.google.com/store/apps/collection/topselling_free?authuser=0')
+assert "百度" in driver.title
+elem = driver.find_elements_by_id('kw')
+elem.send_keys("hduawdbl")
 '''
 
-soup = BeautifulSoup(html_doc,'lxml')
-#print(soup)
-uu = soup.find_all("a")
-for cc in uu:
-    ii = cc.get('href')
-    print(ii)
 
+from selenium import webdriver
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+import time,re,requests
+from bs4 import BeautifulSoup
+from multiprocessing import Pool
+
+
+#def get_urllist(baseurl):
+baseurl = 'https://play.google.com/store/apps/collection/topselling_free?authuser=0'
+driver = webdriver.Chrome()
+driver.get(baseurl)
+print(driver.title)
+
+#pp = driver.find_element_by_id('J_GirlsList').text
+#print(pp)
+time.sleep(3)
+for i in range(7):
+    driver.execute_script('window.scrollTo(0,10000);')
+    time.sleep(5)
+assert "Play" in driver.title
+'''
+loadmore=driver.find_element_by_xpath('//*[@id="show-more-button"]')
+actions = ActionChains(driver)
+actions.move_to_element(loadmore)
+time.sleep(2)
+actions.click(loadmore)
+actions.perform()
+time.sleep(2)
+#elem = driver.find_elements_by_class_name('play-button')
+#elem.send_keys(Keys.ENTER)
+
+
+for i in range(10):
+    driver.execute_script('window.scrollTo(0,10000);')
+    time.sleep(5)
+'''
+soup = BeautifulSoup(driver.page_source,'lxml')
+uu = soup.select('a.card-click-target')
+urllist = []
+for i in range(1,2000,4):
+    detail = uu[i].attrs
+    #name = detail['aria-label']
+    href = detail['href']
+    URL = 'https://play.google.com' + href
+    #get_detail(urllist)
+    urllist.append(URL)
+    print(URL)
+    #return urllist
+
+
+#URLlist = get_urllist(baseurl)
+
+
+
+def get_detail(url):
+
+    page = requests.get(url)
+    page.encoding = 'utf-8'
+    soup = BeautifulSoup(page.text,'lxml')
+    app_name = soup.select('div.id-app-title')[0].string
+    app_Class = soup.select("span")[15].string.split()[0]
+    app_bagage = re.search('id=(.*)', url).group(1)
+    app_score = soup.select('div.score')[0].string
+    print(app_name,app_Class,app_bagage,app_score)
+
+'''
+if __name__ == '__main__':
+
+    pool = Pool(processes=4)
+    pool.map(get_detail,URLlist)  # map(func, iterable[, chunksize=None])它会使进程阻塞直到返回结果。注意，虽然第二个参数是一个迭代器，但在实际使用中，必须在整个队列都就绪后，程序才会运行子进程。
+    pool.close()
+    pool.join()
+'''
+
+
+
+
+'''    title = uu[i].attrs['aria-label']
+    print(title,href)
+
+for cc in uu:
+    print(cc)
+
+    ii = cc.get('aria-label')
+    if ii is not None:
+        print(ii)
+    ll = cc.get('href')
+    ll = 'https://play.google.com'+ll
+    print(ll)
+'''
+#print(soup)
+'''
+f=open('/home/huihui7987/文档/sq/python基础+高级/tt45.txt','w')
+f.write(str(soup))
+f.close()
+'''

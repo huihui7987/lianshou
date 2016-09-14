@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-driver = webdriver.Chrome()
+driver = webdriver.PhantomJS()
 driver.get("https://passport.tianya.cn/register/default.jsp?sourceURL=http%3A%2F%2Fwww.tianya.cn&from=index&_goto=register")
 assert "天涯" in driver.title
 elem = driver.find_element_by_id("userName")

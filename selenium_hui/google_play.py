@@ -26,7 +26,7 @@ from multiprocessing import Pool
 
 def get_urllist():
     baseurl = 'https://play.google.com/store/apps/collection/topselling_free?authuser=0'
-    driver = webdriver.Chrome()
+    driver = webdriver.PhantomJS()
     driver.get(baseurl)
     print(driver.title)
 
@@ -56,7 +56,7 @@ def get_urllist():
     soup = BeautifulSoup(driver.page_source,'lxml')
     uu = soup.select('a.card-click-target')
     urllist = []
-    for i in range(1,1000,4):
+    for i in range(1,300,4):
         detail = uu[i].attrs
         #name = detail['aria-label']
         href = detail['href']
